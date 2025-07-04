@@ -1,0 +1,11 @@
+Source: rtl8812bu-enigma2
+Section: net
+Priority: optional
+Maintainer: Label54 <yasarkof54@gmail.com>
+Standards-Version: 3.9.8
+Build-Depends: build-essential, dkms
+Package: rtl8812bu-enigma2
+Architecture: armhf
+Depends: ${kernel-image}, dkms
+Description: RTL8812BU Wi-Fi sürücüsü (Enigma2 için)
+ Enigma2 sistemli cihazlar için RTL8812BU kablosuz ağ sürücüsü.

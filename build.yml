@@ -1,0 +1,32 @@
+name: Build RTL8812BU Enigma2 IPK
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential git unzip
+
+    - name: Clone driver source
+      run: |
+        git clone https://github.com/morrownr/88x2bu-20210702.git driver
+
+    - name: Build & package
+      run: |
+        KERNEL_VERSION=4.4.3.5
+        mkdir -p output/usr/src/rtl8812bu-driver-$KERNEL_VERSION
+        cp -r driver/* output/usr/src/rtl8812bu-driver-$KERNEL_VERSION/
+        cd output/usr/src/rtl8812bu-driver-$KERNEL_VERSION
+        make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- KVER=$KERNEL_VERSION || true
+        cd ../../..
+        tar -czf rtl8812bu-enigma2_${KERNEL_VERSION}_armhf.tar.gz output
